@@ -16,5 +16,5 @@ jobs:
       - name: Comment on the PR
         uses: meysam81/preview-bot@main
         with:
-          url: https://pr{{PR_NUMBER}}.example.com
+          url: https://pr{{.PR_NUMBER}}.example.com
           url-is-template: true
