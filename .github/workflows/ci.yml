@@ -14,6 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Comment on the PR
-        uses: meysam81/preview-bot@v1.4.6
+        uses: meysam81/preview-bot@v1.4.7
         with:
           url: http://example.com
