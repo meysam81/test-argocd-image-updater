@@ -14,6 +14,8 @@ jobs:
   build-dev:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Cache docker
         uses: actions/cache@v4
         with:
@@ -25,6 +27,7 @@ jobs:
       - name: Build docker
         uses: meysam81/build-docker@main
         with:
+          checkout: false
           cache-from: type=local,src=/tmp/dockercache
           cache-to: type=local,dest=/tmp/dockercache
           cosign: true
