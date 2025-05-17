@@ -49,6 +49,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Comment on the PR
-        uses: meysam81/preview-bot@main
+        uses: meysam81/preview-bot@v1.4.4
         with:
           url: http://example.com
