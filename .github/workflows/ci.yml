@@ -14,9 +14,19 @@ jobs:
   build-dev:
     runs-on: ubuntu-latest
     steps:
+      - name: Cache docker
+        uses: actions/cache@v4
+        with:
+          path: |
+            /tmp/dockercache
+          key: docker-cache-${{ runner.os }}-${{ hashFiles('**/Dockerfile') }}
+          restore-keys: |
+            docker-cache-${{ runner.os }}-
       - name: Build docker
         uses: meysam81/build-docker@main
         with:
+          cache-from: type=local,src=/tmp/dockercache
+          cache-to: type=local,dest=/tmp/dockercache
           cosign: true
           image-name: ghcr.io/${{ github.repository }}
           image-extra-tags: |
