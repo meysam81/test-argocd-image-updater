@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-argocd-image-updater
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 5
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    spec:
+      containers:
+        - image: ghcr.io/meysam81/test-argocd-image-updater
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 8080
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: test-argocd-image-updater
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 8080
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 3000
+            runAsNonRoot: true
+            runAsUser: 1000
+          terminationMessagePolicy: FallbackToLogsOnError
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 65534
+        fsGroupChangePolicy: Always
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups: []
+        sysctls: []
+      serviceAccountName: test-argocd-image-updater
+      terminationGracePeriodSeconds: 10

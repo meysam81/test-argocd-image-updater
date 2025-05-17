@@ -1,0 +1,30 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/app.allow-tags: regexp:^[0-9]+$
+    argocd-image-updater.argoproj.io/app.update-strategy: digest
+    argocd-image-updater.argoproj.io/image-list: app=ghcr.io/meysam81/test-argocd-image-updater
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  name: test-argocd-image-updater
+  namespace: argocd
+  project: default
+  source:
+    path: ./k8s
+    repoURL: https://github.com/meysam81/test-argocd-image-updater
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 1
+        maxDuration: 1m
+      limit: 10
+    syncOptions:
+      - CreateNamespace=false
