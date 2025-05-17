@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build docker
+        uses: meysam81/build-docker@main
+        with:
+          cosign: true
+          image-name: ghcr.io/${{ github.repository }}
+          image-extra-tags: |
+            ghcr.io/${{ github.repository }}:${{ github.run_id }}
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:latest
+          kubescape: false
