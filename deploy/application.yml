@@ -6,11 +6,12 @@ metadata:
     argocd-image-updater.argoproj.io/app.allow-tags: regexp:^[0-9]+$
     argocd-image-updater.argoproj.io/app.update-strategy: digest
     argocd-image-updater.argoproj.io/image-list: app=ghcr.io/meysam81/test-argocd-image-updater
+  name: test-argocd-image-updater
+  namespace: argocd
+spec:
   destination:
     namespace: default
     server: https://kubernetes.default.svc
-  name: test-argocd-image-updater
-  namespace: argocd
   project: default
   source:
     path: ./k8s
